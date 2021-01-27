@@ -160,7 +160,7 @@ public class Recipe implements Serializable {
 
 	/**Gets values of this recipe data fields and puts them into the <code>Context</code> object instance
 	 * @param recipe this <code>Recipe</code> object
-	 * @return an instance of the <code>Context</> object
+	 * @return an instance of the <code>Context</code> object
 	 * @throws ContextException if unsuccessful
 	 */
 	static public Context getContext(Recipe recipe) throws ContextException {
