@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 /**
  * @author   Sarah & Mike
  */
+
 public class Recipe implements Serializable {
     private String name;
     private int price;
@@ -17,7 +18,15 @@ public class Recipe implements Serializable {
     private int amtMilk;
     private int amtSugar;
     private int amtChocolate;
-    
+
+    /** Default constructor for the Recipe class, initializes empty object.
+	 * @param name name of the recipe
+	 * @param price price of the recipe
+	 * @param amtCofee amount of coffee in the recipe
+	 * @param amtMilk amount of milk in the recipe
+	 * @param amtSugar amount of sugar in the recipe
+	 * @param amtChocolate amount of chocolate in the recipe
+	 */
     public Recipe() {
     	this.name = "";
     	this.price = 0;
@@ -27,100 +36,113 @@ public class Recipe implements Serializable {
     	this.amtChocolate = 0;
     }
     
-    /**
-	 * @return   Returns the amtChocolate.
+    /** Gets the amount of chocolate in the recipe
+	 * @return An <code>Int</code> value of amtChocolate.
 	 */
     public int getAmtChocolate() {
 		return amtChocolate;
 	}
-    /**
-	 * @param amtChocolate   The amtChocolate to setValue.
+    /**Sets the amount of chocolate in the recipe
+	 * @param amtChocolate an <code>Int</code> value representing the amount of chocolate in the recipe. Must be equal or above zero.
 	 */
     public void setAmtChocolate(int amtChocolate) {
 		if (amtChocolate >= 0) {
 			this.amtChocolate = amtChocolate;
 		} 
 	}
-    /**
-	 * @return   Returns the amtCoffee.
+    /**Gets the amount of coffee in the recipe
+	 * @return An <code>Int</code> value of amtCoffee.
 	 */
     public int getAmtCoffee() {
 		return amtCoffee;
 	}
-    /**
-	 * @param amtCoffee   The amtCoffee to setValue.
+	/**Sets the amount of coffee in the recipe
+	 * @param amtCoffee an <code>Int</code> value representing the amount of coffee in the recipe. Must be equal or above zero.
 	 */
     public void setAmtCoffee(int amtCoffee) {
 		if (amtCoffee >= 0) {
 			this.amtCoffee = amtCoffee;
 		} 
 	}
-    /**
-	 * @return   Returns the amtMilk.
+	/**Gets the amount of milk in the recipe
+	 * @return An <code>Int</code> value of amtMilk.
 	 */
     public int getAmtMilk() {
 		return amtMilk;
 	}
-    /**
-	 * @param amtMilk   The amtMilk to setValue.
+	/**Sets the amount of milk in the recipe
+	 * @param amtMilk an <code>Int</code> value representing the amount of milk in the recipe. Must be equal or above zero.
 	 */
     public void setAmtMilk(int amtMilk) {
 		if (amtMilk >= 0) {
 			this.amtMilk = amtMilk;
 		} 
 	}
-    /**
-	 * @return   Returns the amtSugar.
+	/**Gets the amount of sugar in the recipe
+	 * @return An <code>Int</code> value of amtSugar.
 	 */
     public int getAmtSugar() {
 		return amtSugar;
 	}
-    /**
-	 * @param amtSugar   The amtSugar to setValue.
+	/**Sets the amount of sugar in the recipe
+	 * @param amtSugar an <code>Int</code> value representing the amount of sugar in the recipe. Must be equal or above zero.
 	 */
     public void setAmtSugar(int amtSugar) {
 		if (amtSugar >= 0) {
 			this.amtSugar = amtSugar;
 		} 
 	}
-    /**
-	 * @return   Returns the key.
+	/**Gets the name of the recipe
+	 * @return A <code>String</code> value of name.
 	 */
     public String getName() {
 		return name;
 	}
-    /**
-	 * @param name   The key to setValue.
+	/**Sets the name of the the recipe
+	 * @param name a <code>String</code> value representing the name of this recipe. Must not be empty.
 	 */
     public void setName(String name) {
     	if(name != null) {
     		this.name = name;
     	}
 	}
-    /**
-	 * @return   Returns the price.
+	/**Gets the price of the recipe
+	 * @return An <code>Int</code> value of price.
 	 */
     public int getPrice() {
 		return price;
 	}
-    /**
-	 * @param price   The price to setValue.
+	/**Sets the amount of sugar in the recipe
+	 * @param price an <code>Int</code> value representing the price of the recipe. Must be equal or above zero.
 	 */
     public void setPrice(int price) {
 		if (price >= 0) {
 			this.price = price;
 		} 
-	} 
+	}
+
+	/**Checks whether the name of this recipe is already used by the existing recipe in the parameters
+	 * @param r an instance of the <code>Recipe</code> object
+	 * @return true if the name of the current recipe equals the name of the recipe in the parameters and false if it does not
+	 */
     public boolean equals(Recipe r) {
         if((this.name).equals(r.getName())) {
             return true;
         }
         return false;
     }
+    /**Overrides the toString method of the <code>Object</code> class to provide a string representation of the <code>Recipe</code> object
+	 * @return a <code>String</code> representing name of the recipe
+    */
     public String toString() {
     	return name;
     }
 
+	/**Gets complete recipe instantiated with current values
+	 * @param context current context
+	 * @return this <code>Recipe</code> object, instantiated with parameters of this object's constructor
+	 * @throws ContextException if unsuccessful
+	 */
 	static public Recipe getRecipe(Context context) throws ContextException {
 		Recipe r = new Recipe();
 		try {
@@ -136,6 +158,11 @@ public class Recipe implements Serializable {
 		return r;
 	}
 
+	/**Gets values of this recipe data fields and puts them into the <code>Context</code> object instance
+	 * @param recipe this <code>Recipe</code> object
+	 * @return an instance of the <code>Context</> object
+	 * @throws ContextException if unsuccessful
+	 */
 	static public Context getContext(Recipe recipe) throws ContextException {
 		Context cxt = new ServiceContext();
 		cxt.putValue("key", recipe.getName());
