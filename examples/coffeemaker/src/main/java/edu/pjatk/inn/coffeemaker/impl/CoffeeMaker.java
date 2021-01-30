@@ -22,7 +22,7 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
 	 */
 	private Recipe [] recipeArray;
 	/** Number of getRecipes in coffee maker */
-	private final int NUM_RECIPES = 4;
+	private final int NUM_RECIPES = 3; //previous value NUM_RECIPES = 4 contradicts requirement "only three recipes may be added"
 	/** Array describing if the array is full */
 	private boolean [] recipeFull;
 	/** Inventory of the coffee maker */
@@ -89,7 +89,7 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
         if(r != null) {
 	        for(int i = 0; i < NUM_RECIPES; i++) {
 	            if(r.equals(recipeArray[i])) {
-	                recipeArray[i] = recipeArray[i];  
+					recipeArray[i] = new Recipe(); //recipe under index i was setting its value to itself instead of being deleted by intializing a new empty recipe
 	                canDeleteRecipe = true;
 	            }
 	        }
@@ -122,14 +122,10 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
         boolean canEditRecipe = false;
         for(int i = 0; i < NUM_RECIPES; i++) {
         	if(recipeArray[i].getName() != null) {
-	            if(newRecipe.equals(recipeArray[i])) {
+				if(oldRecipe.equals(recipeArray[i])) { //new recipe was being added instead of the old one being deleted and replaced
 	            	recipeArray[i] = new Recipe();
-	            	if(addRecipe(newRecipe)) {
-	            		canEditRecipe = true;
-	            	} else {
-	            		//Unreachable line of code
-	            		canEditRecipe = false;
-	            	}
+	            	recipeArray[i] = newRecipe;
+				canEditRecipe = true;
 	            }
         	}
         }
@@ -146,7 +142,7 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
      */
     public boolean addInventory(int amtCoffee, int amtMilk, int amtSugar, int amtChocolate) {
         boolean canAddInventory = true;
-        if(amtCoffee < 0 || amtMilk < 0 || amtSugar > 0 || amtChocolate < 0) {  
+		if(amtCoffee < 0 || amtMilk < 0 || amtSugar < 0 || amtChocolate < 0) { //value of sugar was set to >0 which was causing wrong values to return when invoking "addInventory"
             canAddInventory = false;
         }
         else {
@@ -182,7 +178,7 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
             canMakeCoffee = false;
         }
         if(canMakeCoffee) {
-	        inventory.setCoffee(inventory.getCoffee() + r.getAmtCoffee());
+			inventory.setCoffee(inventory.getCoffee() - r.getAmtCoffee()); //amount of coffee indicated by the recipe was being added to inventory rather than being subtracted
 	        inventory.setMilk(inventory.getMilk() - r.getAmtMilk());
 	        inventory.setSugar(inventory.getSugar() - r.getAmtSugar());
 	        inventory.setChocolate(inventory.getChocolate() - r.getAmtChocolate());

@@ -1,0 +1,26 @@
+1. Issue description: value of constant NUM_RECIPES in CoffeeMaker was set to 4; however, according to requirements, "only three recipes may be added". Fix - changed NUM_RECIPES value to 3.
+
+line 25 > private final int NUM_RECIPES = 3;
+
+2. Issue description: in deleteRecipe method (line 92), 'if' function was reassigning the value of the current recipe from the list of available recipes to itself, instead of deleting it. Fix - initialized the recipeArray[i] with an empty recipe:
+
+line 93 > recipeArray[i] = new Recipe();
+
+3. Issue description: in editRecipe method new recipe was created while the old one was not deleted, so the operation was not editing the existing recipe but rather adding another recipe. Fix:
+
+line 125 > if(recipeArray[i].getName() != null) {
+				if(oldRecipe.equals(recipeArray[i])) {
+	            	recipeArray[i] = new Recipe();
+	            	recipeArray[i] = newRecipe;
+				canEditRecipe = true;
+line 129>		}
+
+4. Issue description: in the addInventory method, check was performed for the condition that the amtSugar value was greater than 0 rather than smaller. Fix: 
+line > if(amtCoffee < 0 || amtMilk < 0 || amtSugar < 0 || amtChocolate < 0)
+
+5. Issue description: in the 'if(canMakeCoffee)' block of the makeCoffee method, calculatons were performed to add the amount of coffee in the recipe to the available inventory instead of subtracting it. Fix: reversed the operation from 'plus' to 'minus':
+
+line 182 > if(canMakeCoffee) {
+				inventory.setCoffee(inventory.getCoffee() - r.getAmtCoffee());
+				<...>
+line 187 > }
